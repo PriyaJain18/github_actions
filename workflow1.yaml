@@ -1,0 +1,16 @@
+# Greeting : greets first time contirbuters
+# labeler : label pull-requests based on file changed
+
+name: greet firstime contributers
+on: [pull_request_target, issues]
+
+jobs: 
+  greetings:
+    runs-on: ubuntu-latest
+    permission: 
+      issues: write
+      pull-requests: write
+    steps: 
+    - uses: actions/first-interaction@v1
+      with: 
+        
