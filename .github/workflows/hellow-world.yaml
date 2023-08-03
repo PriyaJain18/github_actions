@@ -33,8 +33,6 @@ jobs:
       if: ${{ github.event_name == 'schedule'}}
       run: |
         echo "this is a nightly job"
-        ls -l
-        datetime
   goodbye:
     runs-on: ubuntu-latest
     steps: 
