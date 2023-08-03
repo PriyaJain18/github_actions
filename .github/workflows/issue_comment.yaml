@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Dump github context 
-      run: echo '${{ toJSON(github.event) }}'
+      run: echo `${{ toJSON(github.event) }}`
       shell: bash
 
     # - name: Create comment on newly created issue
