@@ -10,15 +10,15 @@ jobs:
       run: echo '${{ toJSON(github.event) }}' | jq
       shell: bash
 
-    - name: Create comment on newly created issue
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-            Welcome to my repository. 
-            - Thanks for raising an issue.
-            - We will check it and get back to you soon with resolution.
-        reactions: '+1'
+    # - name: Create comment on newly created issue
+    #   uses: peter-evans/create-or-update-comment@v3
+    #   with:
+    #     issue-number: ${{ github.event.issue.number }}
+    #     body: |
+    #         Welcome to my repository. 
+    #         - Thanks for raising an issue.
+    #         - We will check it and get back to you soon with resolution.
+    #     reactions: '+1'
   comments-with-api: 
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +31,7 @@ jobs:
             -f body='Thanks for reporting the issue - BY github api'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORGANIZATION_USERNAME: ${{ github.event.organisation.login }}
+          ORGANIZATION_USERNAME: PriyaJain18
+          # ${{ github.event.organisation.login }}
           REPOSITORY: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
