@@ -1,0 +1,53 @@
+name: Java CI with Gradle
+
+on:  #github events 
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+#EACH job [note- jobs runs in parallel by default] in a workflow runs in a fresh new server/virtual environment 
+
+jobs: #jobs have sequence of tasks k/a steps that can execute a command or an action
+  build:   #1st job named 'build'
+
+    runs-on: ubuntu-latest   #ubuntu or windows or macOs
+
+    # runs-on: ${{matrix.os}}
+    # strategy:
+    #   matrix: 
+    #     os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v3   #uses  = selects an action , run :runs a command line comand 
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Grant execute permission for gradle
+      run: chmod +x gradlew 
+        
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: login to docker hub
+      uses: docker/login-action@v1
+      with: 
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Setup docker buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: build and push docker image
+      uses: docker/build-push-action@v2
+      with: 
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest  #specify where to push the image.
+    
+    - name: Docker 

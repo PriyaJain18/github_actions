@@ -1,0 +1,27 @@
+name: Hello world workflow
+
+on:
+  push:
+    branches:
+    - main
+  pull__request:
+    branches:
+    - main
+  workflow_dispatch:
+
+jobs: 
+  hello: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: helloworld
+      run: echo "hello"
+      shell: bash
+    goodbye:
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest]
+      steps: 
+      - name: goodbyeworld
+        run: echo "goodbye world!!"
