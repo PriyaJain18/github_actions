@@ -1,4 +1,5 @@
-# github_actions : Repo with github-action's workflow files for practice purposes (Beginners)
+# github_actions : 
+Repo with github-action's workflow files for practice purposes (Beginners)
 
 # BASICS :
 
@@ -16,27 +17,29 @@ TERMINOLOGIES:
 Github hosted runners : windows, ubuntu, macOS
 - Event: An event is a specific activity that triggers a workflow. Examples include pushes to the repository, pull requests, or scheduled runs.
 Examples :
-- push event : when something is pushed to repo 
-- pull_request
-- pull_request_review: when review is submitted or dismissed
-- issue : when an issue is opened/edited/assigned/closed/labeled
-- issue_comment : when someone comments on an issue
-- schedule event : runs workflows on schedule
-- workflow_dispatch Event: Allows you to trigger a workflow manually using the GitHub API.
-- create , delete : when repo/branch/tag is created/deleted
-- deployment : when a deployment is created or updated. 
+  - push event : when something is pushed to repo 
+  - pull_request
+  - pull_request_review: when review is submitted or dismissed
+  - issue : when an issue is opened/edited/assigned/closed/labeled
+  - issue_comment : when someone comments on an issue
+  - schedule event : runs workflows on schedule
+  - workflow_dispatch Event: Allows you to trigger a workflow manually using the GitHub API.
+  - create , delete : when repo/branch/tag is created/deleted
+  - deployment : when a deployment is created or updated. 
 
 - Artifact: An artifact is a file or set of files produced during a workflow run that you want to persist or share with other jobs in the workflow.
 - Environment: An environment is a named, configurable set of environment variables that you can use to define secrets, configuration values, or other data accessible during workflow runs.
 - Secrets: Secrets are encrypted environment variables that you can store in your repository or organization settings. They are used to store sensitive information securely, such as API keys or credentials.
 
 
-# GITHUB CLI : 
+GITHUB CLI : 
+
 gh 
-> Installation :  
+
+- Installation :  
 macOS:  breq install gh 
 Windows: winget install -id Github.cli 
-> Login : gh auth login    //or use GITHUB_TOKEN
+- Login : gh auth login    //or use GITHUB_TOKEN
 
 # GITHUB REST API : 
 base url i.e. "https://api.github.com/" + path , methods : GET , POST, PATCH , PUT , DELETE
