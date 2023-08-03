@@ -4,10 +4,13 @@ on:
   push:
     branches:
     - main
+    - feature/*
   pull_request:
     branches:
     - main
-  workflow_dispatch:
+  schedule:
+    - cron: '*/2 * * * *'  # run every 2min
+  # workflow_dispatch:
 
 jobs: 
   hello: 
@@ -17,12 +20,24 @@ jobs:
     - name: helloworld
       run: echo "hello"
       shell: bash
-    goodbye:
-      runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
-      steps: 
-      - name: goodbyeworld
-        run: echo "goodbye world!!"
-        shell: bash
+  midJob:
+    runs-on: ubuntu-latest
+    steps:
+    - name: push to repo
+      if: ${{github.event_name == 'push '}}
+      run: |
+        echo "this is a push event"
+        echo "push task done"
+      shell: bash
+    - name: nightly job
+      if: ${{ github.event_name == 'schedule'}}
+      run: |
+        echo "this is a nightly job"
+        ls -l
+        datetime
+  goodbye:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: goodbyeworld
+      run: echo "goodbye world!!"
+      shell: bash
