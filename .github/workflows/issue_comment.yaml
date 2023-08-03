@@ -22,7 +22,7 @@ jobs:
   comments-with-api: 
     runs-on: ubuntu-latest
     steps:
-      - name: create comment on issue with API
+    - name: create comment on issue with API
         # if: ${{ github.event_name == 'issues' && github.event_name.types == 'xyz' }}
         # run: |
         #   echo "Creating comment on issue with API...."
@@ -37,16 +37,16 @@ jobs:
         #   -d '{"body":"Thanks for reporting the issue - BY github api"}' \
         #   https://api.github.com/repos/priyajain18/${REPOSITORY}/issues//comments
           
-          run: |
-            curl -L -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${AUTH_TOKEN}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/priyajain18/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
-              -d '{"body":"new comment using API"}'
+      run: |
+        curl -L -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${AUTH_TOKEN}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/priyajain18/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
+          -d '{"body":"new comment using API"}'
 
-        env: 
-          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+      env: 
+        GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           # ORGANIZATION_USERNAME: ${{ github.event.organisation.login }}
-          REPOSITORY: ${{ github.event.repository.name }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        REPOSITORY: ${{ github.event.repository.name }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
