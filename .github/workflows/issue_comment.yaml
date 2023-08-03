@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Dump github context 
-      run: echo '${{ toJSON(github.event) }}' | jq
+      run: echo `${{ toJSON(github.event) }}`
       shell: bash
 
     # - name: Create comment on newly created issue
@@ -24,14 +24,22 @@ jobs:
     steps:
       - name: create comment on issue with API
         # if: ${{ github.event_name == 'issues' && github.event_name.types == 'xyz' }}
+        # run: |
+        #   echo "Creating comment on issue with API...."
+        #   gh api -X POST \
+        #     https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}
+        #     -f body='Thanks for reporting the issue - BY github api'
+
         run: |
-          echo "Creating comment on issue with API...."
-          gh api -X POST \
-            https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}
-            -f body='Thanks for reporting the issue - BY github api'
+          curl -X POST \
+          -H "Authorization: token ${AUTH_TOKEN}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          -d '{"body":"Thanks for reporting the issue - BY github api"}' \
+          https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments
+
+
         env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORGANIZATION_USERNAME: PriyaJain18
-          # ${{ github.event.organisation.login }}
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          ORGANIZATION_USERNAME: ${{ github.event.organisation.login }}
           REPOSITORY: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
