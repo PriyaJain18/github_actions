@@ -7,30 +7,39 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Dump github context 
-      run: echo '${{ toJSON(github.event) }}' | jq
+      run: echo '${{ toJSON(github.event) }}'
       shell: bash
 
-    - name: Create comment on newly created issue
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body: |
-            Welcome to my repository. 
-            - Thanks for raising an issue.
-            - We will check it and get back to you soon with resolution.
-        reactions: '+1'
+    # - name: Create comment on newly created issue
+    #   uses: peter-evans/create-or-update-comment@v3
+    #   with:
+    #     issue-number: ${{ github.event.issue.number }}
+    #     body: |
+    #         Welcome to my repository. 
+    #         - Thanks for raising an issue.
+    #         - We will check it and get back to you soon with resolution.
+    #     reactions: '+1'
   comments-with-api: 
     runs-on: ubuntu-latest
     steps:
       - name: create comment on issue with API
         # if: ${{ github.event_name == 'issues' && github.event_name.types == 'xyz' }}
+        # run: |
+        #   echo "Creating comment on issue with API...."
+        #   gh api -X POST \
+        #     https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}
+        #     -f body='Thanks for reporting the issue - BY github api'
+
         run: |
-          echo "Creating comment on issue with API...."
-          gh api -X POST \
-            https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}
-            -f body='Thanks for reporting the issue - BY github api'
+          curl -X POST \
+          -H "Authorization: token ${AUTH_TOKEN}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          -d '{"body":"Thanks for reporting the issue - BY github api"}' \
+          https://api.github.com/repos/${ORGANIZATION_USERNAME}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments
+
+
         env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           ORGANIZATION_USERNAME: ${{ github.event.organisation.login }}
           REPOSITORY: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
