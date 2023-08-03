@@ -18,7 +18,7 @@ jobs:
             Welcome to my repository. 
             - Thanks for raising an issue.
             - We will check it and get back to you soon with resolution.
-          reactions: '+1'
+        reactions: '+1'
   comments-with-api: 
     runs-on: ubuntu-latest
     steps:
